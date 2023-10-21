@@ -1,15 +1,14 @@
-const nomeLimpo = (nome) => {
-  //declarando regex apenas com letras maiusculas e minusculas
-  //Remover caracteres especiais
-  //Remover números
+const limparNome = (nome) => {
   const regex = /^[A-Za-z\s]+$/;
 
   if (regex.test(nome) == false) {
     console.log("nome incorreto");
+    return;
   }
 
   let allLowerCase = nome.toLowerCase();
 
+  //ver outras formas de fazer
   allLowerCase = allLowerCase.replace(/[ ]/g, "<>");
   allLowerCase = allLowerCase.replace(/></g, "");
   allLowerCase = allLowerCase.replace(/<>/g, " ");
@@ -21,4 +20,4 @@ const nomeLimpo = (nome) => {
   console.log(allLowerCase.trim());
 };
 
-nomeLimpo(" vinícius    kldfkds     ");
+module.exports = { limparNome };
