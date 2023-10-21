@@ -52,4 +52,4 @@ const validateCPF = (cpf) => {
   );
 };
 
-console.log(validateCPF("280.012.389-38"));
+console.log(validateCPF("44444444444"));
