@@ -1,27 +1,23 @@
 const validateCPF = (cpf) => {
-  const split = cpf.split("");
-
   //retira todos os caracteres especiais
-  //trocar por um array.filter  e depois fazer o string.replace
-  const arrayNumbers = split.filter(numbers);
-
-  function numbers(onlyNumbers) {
-    const regexNumbers = new RegExp("^[0-9]+$");
-
-    return regexNumbers.test(onlyNumbers);
-  }
+  const takeOutDigits = cpf.replace(/\D/g, "");
 
   //paro o processo se a array for menor que 8
-  if (arrayNumbers.length < 8) {
-    return false;
+  if (takeOutDigits.length < 8) {
+    return {
+      input: `${cpf}`,
+      type: "CPF",
+      isValid: false,
+    };
   }
 
-  //adciona o 0 se a pessoa não colocou
-  for (let i = 0; arrayNumbers.length < 11; i++) {
-    arrayNumbers.unshift("0");
-  }
+  //adiciona zeros
+  const raw = takeOutDigits.padStart(11, 0);
 
-  //pego os meus digitos verificadores
+  const arrayNumbers = raw.split("");
+
+  console.log(arrayNumbers);
+
   const verificationNumbers = arrayNumbers.slice(-2);
 
   //fazer o calculo
@@ -46,10 +42,26 @@ const validateCPF = (cpf) => {
     return (11 - rest).toString();
   }
 
-  return (
+  //add points
+  arrayNumbers.splice(3, 0, "."),
+    arrayNumbers.splice(7, 0, "."),
+    arrayNumbers.splice(11, 0, "-");
+
+  const formatted = arrayNumbers.join("");
+
+  const compare =
     verificationNumbers[0] == verificationNumbers[2] &&
-    verificationNumbers[1] == verificationNumbers[3]
-  );
+    verificationNumbers[1] == verificationNumbers[3];
+
+  if (compare) {
+    return {
+      input: `${cpf}`,
+      type: "CPF",
+      isValid: true,
+      formated: `${formatted}`,
+      raw: `${raw}`,
+    };
+  }
 };
 
-console.log(validateCPF("44444444444"));
+console.log(validateCPF("439.842.938-79"));
